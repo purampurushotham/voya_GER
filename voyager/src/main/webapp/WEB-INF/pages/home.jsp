@@ -12,30 +12,12 @@
     <title>Voyager</title>
 </head>
 <div align="center">
-            <h1>Tours List</h1>
-            <h3>
-    <a href="newTour">New Tour</a>
-            </h3>
+    <h1>Voyager</h1>
     <table border="1">
-     
-                <th>Place</th>
-                <th>Package Type</th>
-                <th>Package Name</th>
-                <th>Price</th>
-     
-                <c:forEach var="tour" items="${toursList}">
-                    <tr>
-     
-                        <td>${tour.placeName}</td>
-                        <td>${tour.packageName}</td>
-                        <td>${tour.packageType}</td>
-                        <td>${tour.price}</td>
-                        <td><a href="editEmployee?id=${tour.id}">Edit</a>
-                                 <a href="deleteEmployee?id=${tour.id}">Delete</a></td>
-     
-                    </tr>
-                </c:forEach>
-            </table>
+             <td><a href="tours">Tours</a>
+        <a href="tourists">Tourists</a>
+    </td>
+    </table>
         </div>
 </body>
 </html>

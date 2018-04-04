@@ -50,9 +50,7 @@ public class Tour implements Serializable{
         this.price = price;
     }
 
-    public String getPackageName() {
-        return packageName;
-    }
+    public String getPackageName() { return packageName; }
 
     public String getPackageType() {
         return packageType;

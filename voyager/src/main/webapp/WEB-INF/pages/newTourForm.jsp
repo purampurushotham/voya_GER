@@ -9,7 +9,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
-    Add New Tour
 </head>
 <body>
     <div align="center">
@@ -18,20 +17,20 @@
             <table>
                 <form:hidden path="id"/>
                 <tr>
-                    <td>Package Name:</td>
-                    <td><form:input path="packageName" /></td>
+                    <td>Place</td>
+                    <td><form:input path="placeName" /></td>
                 </tr>
                 <tr>
                     <td>Package Type:</td>
                     <td><form:input path="packageType" /></td>
                 </tr>
                 <tr>
-                    <td>Place</td>
-                    <td><form:input path="placeName" /></td>
+                    <td>Package Name:</td>
+                    <td><form:input path="packageName" /></td>
                 </tr>
-        <tr>
-          <td>Price: </td>
-            <td><form:input path="price" /></td>
+    <tr>
+        <td>Price: </td>
+                    <td><form:input path="price" /></td>
     </tr>
                 <tr>
                     <td colspan="2" align="center"><input type="submit" value="Save"></td>

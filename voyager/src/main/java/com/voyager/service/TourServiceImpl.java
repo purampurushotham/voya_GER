@@ -22,20 +22,18 @@ public class TourServiceImpl implements TourService {
     }
     @Override
     @Transactional
-    public void addTour(Tour tour) {
-        tourDAO.addTour(tour);
-    }
+    public void addTour(Tour tour) { tourDAO.addTour(tour); }
+
     @Override
     @Transactional
-    public Tour getTour(Integer tourId) {
-        return tourDAO.getTour(tourId);
+    public Tour getTour(Integer tourId) { return tourDAO.getTour(tourId); }
 
-    }
     @Override
     @Transactional
     public void deleteTour(Integer tourId) {
         tourDAO.deleteTour(tourId);
     }
+
     @Override
     @Transactional
     public Tour updateTour(Tour tour) {

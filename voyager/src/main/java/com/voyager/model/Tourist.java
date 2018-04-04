@@ -1,9 +1,13 @@
 package com.voyager.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -29,12 +33,11 @@ public class Tourist implements Serializable {
 
     @Column
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date dob;
-
-    @OneToOne
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate dob;
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="passport_id")
-    private Passport passport_id;
+    private Passport passport;
 
     @OneToMany(mappedBy = "tourist")
     private Set<Address> addressesSet;
@@ -52,7 +55,7 @@ public class Tourist implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    public void setDob(Date dob) {
+    public void setDob(LocalDate dob) {
         this.dob = dob;
     }
     public int getId() {
@@ -64,22 +67,11 @@ public class Tourist implements Serializable {
     public String getLastName() {
         return lastName;
     }
-    public Date getDob() {
-        return dob;
-    }
-    public void setPassport_id(Passport passport_id){ this.passport_id = passport_id; }
-    public Passport getPassport_id() { return passport_id; }
-    public Set<Address> getAddressList() { return addressesSet; }
+    public void setPassport(Passport passport){ this.passport = passport; }
+    public Passport getPassport() { return passport; }
+    /*public Set<Address> getAddressList() { return addressesSet; }*/
     public void setAddressesSet(Set<Address> addressesSet) { this.addressesSet = addressesSet; }
     public void setTours(Set<Tour> tours) { this.tours = tours; }
     public Set<Address> getAddressesSet() { return addressesSet; }
-    /*
-    public List<Tour> getTours() {
-        return tours;
-    }
-
-    public void setTours(List<Tour> tours) {
-        this.tours = tours;
-    }*/
-
+    public LocalDate getDob() { return dob; }
 }

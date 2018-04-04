@@ -1,9 +1,13 @@
 package com.voyager.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -20,8 +24,8 @@ public class Passport implements Serializable {
 
     @Column
     @NotNull
-    @Temporal(TemporalType.DATE)
-    private Date expiredDate;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate expiredDate;
 
     /*@OneToOne
     @PrimaryKeyJoinColumn
@@ -32,11 +36,11 @@ public class Passport implements Serializable {
     private String issuedBy;
 
     public void setP_id(Long p_id) { this.p_id = p_id; }
-    public void setExpiredDate(Date expiredDate) { this.expiredDate = expiredDate; }
+    public void setExpiredDate(LocalDate expiredDate) { this.expiredDate = expiredDate; }
     public void setType(String type) { Type = type; }
     public void setIssuedBy(String issuedBy) { this.issuedBy = issuedBy; }
     public Long getP_id() { return p_id; }
-    public Date getExpiredDate() { return expiredDate; }
+    public LocalDate getExpiredDate() { return expiredDate; }
     public String getIssuedBy() { return issuedBy; }
     public String getType() { return Type; }
 }
