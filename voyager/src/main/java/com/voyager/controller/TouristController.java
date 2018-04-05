@@ -4,6 +4,7 @@ import com.voyager.model.Address;
 import com.voyager.model.Tour;
 import com.voyager.model.Tourist;
 import com.voyager.service.AddressService;
+import com.voyager.service.TourService;
 import com.voyager.service.TouristService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -37,11 +38,19 @@ public class TouristController {
     private TouristService touristService;
 
     @Autowired
+    private TourService tourService;
+
+    @Autowired
     private AddressService addressService;
 
     @RequestMapping(value="/newTourist",method = RequestMethod.GET)
-    public ModelAndView newTourist(ModelAndView modelAndView){
+    public ModelAndView newTourist(HttpServletRequest request){
+        Integer tourId = Integer.parseInt(request.getParameter("id"));
+        Tour tour = tourService.getTour(tourId);
+        List<Tour> tourList = new LinkedList<Tour>();
         Tourist tourist = new Tourist();
+        tourList.add(tour);
+        tourist.setTours(tourList);
         Address address1 = new Address();
         Address address2 = new Address();
         List<Address> addressesList = new LinkedList<Address>();
@@ -50,8 +59,9 @@ public class TouristController {
         tourist.setAddressList(addressesList);
         address1.setTourist(tourist);
         address2.setTourist(tourist);
+        ModelAndView modelAndView = new ModelAndView("touristForm");
         modelAndView.addObject("tourist",tourist);
-        modelAndView.setViewName("touristForm");
+        /*modelAndView.setViewName("touristForm");*/
         return modelAndView;
     }
     @RequestMapping(value = "/saveTourist", method = RequestMethod.POST)

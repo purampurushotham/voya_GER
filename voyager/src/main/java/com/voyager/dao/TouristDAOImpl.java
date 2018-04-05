@@ -20,7 +20,6 @@ private SessionFactory sessionFactory;
     public void addTourist(Tourist tourist) {
         System.out.println("AddTourist");
         tourist = setAddressAssocaition(tourist);
-        /*tourist = setPassportAssociation(tourist);*/
         sessionFactory.getCurrentSession().saveOrUpdate(tourist);
 
     }

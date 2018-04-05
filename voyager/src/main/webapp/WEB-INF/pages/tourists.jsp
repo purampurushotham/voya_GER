@@ -16,10 +16,9 @@
 <body>
 <div align="center">
         <h1>Tourists</h1>
-        <h3>
+    <%--    <h3>
     <a href="newTourist">New Tourist</a>
-            </h3>
-    <h2>
+            </h3>--%>
 <table border="1">
      
                 <th>First Name</th>

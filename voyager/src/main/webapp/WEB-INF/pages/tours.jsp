@@ -17,24 +17,23 @@
     <a href="newTour">New Tour</a>
             </h3>
     <table border="1">
-         
                     <th>Place</th>
                     <th>Package Type</th>
                     <th>Package Name</th>
                     <th>Price</th>
          
                     <c:forEach var="tour" items="${toursList}">
+                    <a href="viewTour?id=${tour.id}">
                         <tr>
-         
-                            <td>${tour.placeName}</td>
-                            <td>${tour.packageName}</td>
-                            <td>${tour.packageType}</td>
-                            <td>${tour.price}</td>
-                            <td><a href="editTour?id=${tour.id}">Edit</a>
-                                     <a href="deleteTour?id=${tour.id}">Delete</a></td>
-                                     <a href="bookTour?id=${tour.id}">Book</a></td>
-         
+                                <td>${tour.placeName}</td>
+                                <td>${tour.packageName}</td>
+                                <td>${tour.packageType}</td>
+                                <td>${tour.price}</td>
+                                <td><a href="editTour?id=${tour.id}">Edit</a>
+                                         <a href="deleteTour?id=${tour.id}">Delete</a></td>
                         </tr>
+                         </a>
+
                     </c:forEach>
                 </table>
         </div>

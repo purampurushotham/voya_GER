@@ -17,7 +17,11 @@ import org.jboss.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 @Controller
 public class ToursController {
     private static final Logger logger = Logger
@@ -57,7 +61,7 @@ public class ToursController {
         else{
             tourService.updateTour(tour);
         }
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/tours");
     }
 
     @RequestMapping(value="/newTour",method = RequestMethod.GET)
@@ -82,14 +86,19 @@ public class ToursController {
         tourService.deleteTour(tourId);
         return  new ModelAndView("redirect:/tours");
     }
-    /*@RequestMapping(value = "/bookTour", method = RequestMethod.GET)
-    public ModelAndView bookTour(HttpServletRequest request){
+    @RequestMapping(value = "/viewTour", method = RequestMethod.GET)
+    public ModelAndView viewTour(HttpServletRequest request){
         int tourID = Integer.parseInt(request.getParameter("id"));
-        Tourist tourist = new Tourist();
         Tour tour = tourService.getTour(tourID);
+        ModelAndView modelAndView = new ModelAndView("viewTourForm");
+        /*Tourist tourist = new Tourist();
+        Set<Tour> tours = new HashSet<Tour>();
+        Tour tour = tourService.getTour(tourID);
+        tours.add(tour);
         ModelAndView modelAndView = new ModelAndView("touristForm");
-        modelAndView.addObject("tourist",tourist);
-        modelAndView.addObject("tourName",tour.getPackageName());
+        tourist.setTours(tours);*/
+        modelAndView.addObject("tour",tour);
+        /*modelAndView.addObject("tourName",tour.getPackageName());*/
         return modelAndView;
-    }*/
+    }
 }

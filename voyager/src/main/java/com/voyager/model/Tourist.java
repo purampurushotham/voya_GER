@@ -31,7 +31,6 @@ public class Tourist implements Serializable {
     private String lastName;
 
     @Column
-
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dob;
@@ -45,7 +44,7 @@ public class Tourist implements Serializable {
 
     @ManyToMany
     @JoinTable(name="Tourist_Visits", joinColumns={@JoinColumn(name="tourist_id")}, inverseJoinColumns = {@JoinColumn(name="tour_id")})
-    private Set<Tour> tours;
+    private List<Tour> tours;
 
 
 
@@ -71,7 +70,8 @@ public class Tourist implements Serializable {
     public void setPassport(Passport passport){ this.passport = passport; }
     public Passport getPassport() { return passport; }
     public void setAddressList(List<Address> addressList) { this.addressList = addressList; }
-    public void setTours(Set<Tour> tours) { this.tours = tours; }
+    public void setTours(List<Tour> tours) { this.tours = tours; }
     public List<Address> getAddressList() { return addressList; }
     public LocalDate getDob() { return dob; }
+    public List<Tour> getTours() { return tours; }
 }

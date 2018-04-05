@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,7 +33,7 @@ public class Tour implements Serializable{
     private int price;
 
     @ManyToMany(mappedBy = "tours")
-    private Set<Tourist> touristSet;
+    private List<Tourist> touristSet;
 
     public int getId() {
         return id;
@@ -76,7 +77,7 @@ public class Tour implements Serializable{
         return serialVersionUID;
     }
 
-    public Set<Tourist> getTouristSet() { return touristSet; }
+    public List<Tourist> getTouristSet() { return touristSet; }
 
-    public void setTouristSet(Set<Tourist> touristSet) { this.touristSet = touristSet; }
+    public void setTouristSet(List<Tourist> touristSet) { this.touristSet = touristSet; }
 }

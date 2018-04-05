@@ -14,7 +14,7 @@
 <div align="center">
     <h1>Voyager</h1>
     <table border="1">
-             <td><a href="tours">Tours</a>
+             <td><a href="tours">Tour Packages</a>
         <a href="tourists">Tourists</a>
     </td>
     </table>
