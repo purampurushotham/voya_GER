@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
@@ -37,12 +38,34 @@
     </td>
                 </tr>
                 <tr>
+                    <form:hidden path="passport.p_id" />
                     <td>Passport:</td>
                     <td><form:input path="passport.type" /><br>
     <input class="date" type="date" name="passport.expiredDate" data-date="" data-date-format="YYYY-MM-DD" value="2015-08-09" /><br>                   <%--<form:input path="passport.expiredDate" type="date" /><br>--%>
     <form:input path="passport.issuedBy" /><br>
     </td>
                 </tr>
+      <c:forEach items="${tourist.addressList}" varStatus="vs">
+    <tr>
+        <c:choose>
+            <c:when test="${vs.index=='0'}">
+                Primary Address:
+            </c:when>
+            <c:otherwise>
+                Alternate Address:
+            </c:otherwise>
+        </c:choose>
+                    <form:hidden path="addressList[${vs.index}].id"/>
+        <td>City: </td>
+        <td><form:input path="addressList[${vs.index}].city"/></td>
+        <td>Street: </td>
+        <td><form:input path="addressList[${vs.index}].street"/></td>
+        <td>State: </td>
+        <td><form:input path="addressList[${vs.index}].state"/></td>
+        <td>Zipcode: </td>
+        <td><form:input path="addressList[${vs.index}].zipcode"/></td>
+    </tr>
+                </c:forEach>
                 <tr>
                     <td colspan="2" align="center"><input type="submit" value="Save"></td>
                 </tr>

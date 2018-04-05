@@ -1,5 +1,7 @@
 package com.voyager.model;
 
+import org.hibernate.annotations.Cascade;
+import org.jboss.logging.annotations.Message;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -8,10 +10,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "TOURIST_TBL")
@@ -32,15 +31,17 @@ public class Tourist implements Serializable {
     private String lastName;
 
     @Column
+
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dob;
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @OneToOne(cascade = {CascadeType.ALL},orphanRemoval = true)
     @JoinColumn(name="passport_id")
     private Passport passport;
 
-    @OneToMany(mappedBy = "tourist")
-    private Set<Address> addressesSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tourist", fetch = FetchType.EAGER,targetEntity = Address.class)
+    private List<Address> addressList;
 
     @ManyToMany
     @JoinTable(name="Tourist_Visits", joinColumns={@JoinColumn(name="tourist_id")}, inverseJoinColumns = {@JoinColumn(name="tour_id")})
@@ -69,9 +70,8 @@ public class Tourist implements Serializable {
     }
     public void setPassport(Passport passport){ this.passport = passport; }
     public Passport getPassport() { return passport; }
-    /*public Set<Address> getAddressList() { return addressesSet; }*/
-    public void setAddressesSet(Set<Address> addressesSet) { this.addressesSet = addressesSet; }
+    public void setAddressList(List<Address> addressList) { this.addressList = addressList; }
     public void setTours(Set<Tour> tours) { this.tours = tours; }
-    public Set<Address> getAddressesSet() { return addressesSet; }
+    public List<Address> getAddressList() { return addressList; }
     public LocalDate getDob() { return dob; }
 }

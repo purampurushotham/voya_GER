@@ -27,10 +27,6 @@ public class Passport implements Serializable {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate expiredDate;
 
-    /*@OneToOne
-    @PrimaryKeyJoinColumn
-    private Tourist tourist_ID;*/
-
     @Column
     @NotNull
     private String issuedBy;

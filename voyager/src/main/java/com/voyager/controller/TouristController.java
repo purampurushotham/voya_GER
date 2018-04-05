@@ -1,10 +1,13 @@
 package com.voyager.controller;
 
+import com.voyager.model.Address;
 import com.voyager.model.Tour;
 import com.voyager.model.Tourist;
+import com.voyager.service.AddressService;
 import com.voyager.service.TouristService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,13 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class TouristController {
@@ -35,10 +36,20 @@ public class TouristController {
     @Autowired
     private TouristService touristService;
 
+    @Autowired
+    private AddressService addressService;
 
     @RequestMapping(value="/newTourist",method = RequestMethod.GET)
     public ModelAndView newTourist(ModelAndView modelAndView){
         Tourist tourist = new Tourist();
+        Address address1 = new Address();
+        Address address2 = new Address();
+        List<Address> addressesList = new LinkedList<Address>();
+        addressesList.add(address1);
+        addressesList.add(address2);
+        tourist.setAddressList(addressesList);
+        address1.setTourist(tourist);
+        address2.setTourist(tourist);
         modelAndView.addObject("tourist",tourist);
         modelAndView.setViewName("touristForm");
         return modelAndView;
@@ -46,7 +57,12 @@ public class TouristController {
     @RequestMapping(value = "/saveTourist", method = RequestMethod.POST)
     public ModelAndView saveTourist(ModelAndView modelAndView,Model model, @Valid Tourist tourist, BindingResult result){
         System.out.println("save tourist");
-        touristService.addTourist(tourist);
+        if(tourist.getId() == 0) {
+            touristService.addTourist(tourist);
+        }
+        else{
+            touristService.updateTourist(tourist);
+        }
         return new ModelAndView("redirect:/tourists");
     }
     @RequestMapping(value = "/tourists", method = RequestMethod.GET)
@@ -57,5 +73,20 @@ public class TouristController {
         modelAndView.addObject("touristList",touristList);
         modelAndView.setViewName("tourists");
         return modelAndView;
+    }
+    @RequestMapping(value="/editTourist", method = RequestMethod.GET)
+    public ModelAndView editEmployee(HttpServletRequest request){
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        Tourist tourist = touristService.getTourist(id);
+        ModelAndView modelAndView = new ModelAndView("touristForm");
+        modelAndView.addObject("tourist",tourist);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/deleteTourist",method = RequestMethod.GET)
+    public ModelAndView deleteTourist(HttpServletRequest request){
+        Integer touristId = Integer.parseInt(request.getParameter("id"));
+        touristService.deleteTourist(touristId);
+        return new ModelAndView("redirect:/tourists");
     }
 }

@@ -26,6 +26,8 @@
                 <th>Last Name</th>
                 <th>DOB</th>
                 <th>Passport Details</th>
+                <th>Primary Address</th>
+                <th>Alternate Address</th>
      
                 <c:forEach var="tourist" items="${touristList}">
                     <tr>
@@ -37,9 +39,13 @@
                             Expired:${tourist.passport.expiredDate},
                             Issued By :${tourist.passport.issuedBy}
                             </td>
-    <%--                    <td><a href="ed?id=${tour.id}">Edit</a>
-                                 <a href="deleteTour?id=${tour.id}">Delete</a></td>
-                                 <a href="bookTour?id=${tour.id}">Book</a></td>--%>
+                <c:forEach var="address" items="${tourist.addressList}">
+                        <td>
+                            Street: ${address.street}, City: ${address.city},State: ${address.state}, Zipcode: ${address.zipcode}
+                        </td>
+</c:forEach>
+                        <td><a href="editTourist?id=${tourist.id}">Edit</a>
+                                 <a href="deleteTourist?id=${tourist.id}">Delete</a></td>
      
                     </tr>
                 </c:forEach>
