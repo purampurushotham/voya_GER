@@ -1,5 +1,8 @@
 package com.voyager.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,7 +35,15 @@ public class Tour implements Serializable{
     @NotNull
     private int price;
 
-    @ManyToMany(mappedBy = "tours")
+    @ManyToMany(fetch = FetchType.LAZY,cascade = { CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST},targetEntity = Tourist.class)
+    @JoinTable(name="Tourist_Visits", joinColumns={@JoinColumn(name="tour_id",nullable = false,updatable = false)}, inverseJoinColumns = {@JoinColumn(name="tourist_id",nullable = false,updatable = false)},
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
+    )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Tourist> touristSet;
 
     public int getId() {

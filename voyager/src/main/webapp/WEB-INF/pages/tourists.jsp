@@ -8,10 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"
          isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@include file="header.jsp" %>
 <html>
 <head>
-    <title>Title</title>
+    <head>
+    </head>
 </head>
 <body>
 <div align="center">
@@ -19,7 +20,7 @@
     <%--    <h3>
     <a href="newTourist">New Tourist</a>
             </h3>--%>
-<table border="1">
+<table border="1" class="table table-hover table-responsive-md btn-table">
      
                 <th>First Name</th>
                 <th>Last Name</th>
@@ -43,9 +44,10 @@
                             Street: ${address.street}, City: ${address.city},State: ${address.state}, Zipcode: ${address.zipcode}
                         </td>
 </c:forEach>
-                        <td><a href="editTourist?id=${tourist.id}">Edit</a>
-                                 <a href="deleteTourist?id=${tourist.id}">Delete</a></td>
-     
+                        <td><button type="button" class="btn btn-default btn-rounded"
+                                onclick="window.location.href='/editTourist?id=${tourist.id}'">Edit</button>
+                                 <button type="button" class="btn btn-danger btn-rounded"
+                                         onclick="window.location.href='/deleteTourist?id=${tourist.id}'">Delete</button></td>
                     </tr>
                 </c:forEach>
             </table>

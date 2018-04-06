@@ -13,13 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -44,13 +42,21 @@ public class TouristController {
     private AddressService addressService;
 
     @RequestMapping(value="/newTourist",method = RequestMethod.GET)
-    public ModelAndView newTourist(HttpServletRequest request){
+    public ModelAndView newTourist(HttpServletRequest request, HttpSession session){
+        String param = request.getParameter("id");
+        if(param.contains("n")){
+            session.setAttribute("isEditable",true);
+        }
+        else{
+            session.setAttribute("isEditable",false);
+        }
         Integer tourId = Integer.parseInt(request.getParameter("id"));
         Tour tour = tourService.getTour(tourId);
         List<Tour> tourList = new LinkedList<Tour>();
         Tourist tourist = new Tourist();
         tourList.add(tour);
         tourist.setTours(tourList);
+        tour.getTouristSet().add(tourist);
         Address address1 = new Address();
         Address address2 = new Address();
         List<Address> addressesList = new LinkedList<Address>();
@@ -67,6 +73,14 @@ public class TouristController {
     @RequestMapping(value = "/saveTourist", method = RequestMethod.POST)
     public ModelAndView saveTourist(ModelAndView modelAndView,Model model, @Valid Tourist tourist, BindingResult result){
         System.out.println("save tourist");
+        System.out.println(result);
+        List<Tour> tourList = tourist.getTours();
+        List<Tourist> touristList = new LinkedList<Tourist>();
+        touristList.add(tourist);
+        Iterator<Tour> tourIterator= tourList.iterator();
+        while(tourIterator.hasNext()){
+            tourIterator.next().setTouristSet(touristList);
+        }
         if(tourist.getId() == 0) {
             touristService.addTourist(tourist);
         }
@@ -98,5 +112,25 @@ public class TouristController {
         Integer touristId = Integer.parseInt(request.getParameter("id"));
         touristService.deleteTourist(touristId);
         return new ModelAndView("redirect:/tourists");
+    }
+    @RequestMapping(value="/getAllTourists", method = RequestMethod.GET)
+    public ModelAndView getAllTourists(HttpServletRequest request){
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        Tour tour = tourService.getTour(id);
+        Tourist tourist = new Tourist();
+        List<Tourist> touristList  = touristService.getAllTourists();
+        ModelAndView modelAndView = new ModelAndView("editTouristForm");
+        modelAndView.addObject("touristList",touristList);
+        modelAndView.addObject("tour",tour);
+        modelAndView.addObject("tourist",tourist);
+        return modelAndView;
+    }
+    @RequestMapping(value="/getTourist", method = RequestMethod.GET)
+    public Tourist getTourist(@PathVariable("categoryId") int categoryId, Model model){
+        System.out.println(categoryId);
+        System.out.println("getTourist");
+        Tourist tourist  = touristService.getTourist(categoryId);
+        model.addAttribute("tourist",tourist);
+        return tourist;
     }
 }

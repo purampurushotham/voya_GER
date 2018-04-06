@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: purushotham
-  Date: 4/4/2018
-  Time: 1:07 PM
+  Date: 4/6/2018
+  Time: 1:40 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,23 +12,19 @@
 <%@include file="header.jsp" %>
 <html>
 <head>
-    <title>Voyager</title>
+    <title>Title</title>
 </head>
 <body>
 <div align="center">
-            <h1>Register Tourist</h1>
+      <h1>Register Tourist</h1>
             <form:form action="saveTourist" method="post" commandName="tourist">
             <table>
-    <%--<tr>
-        <c:choose>
-        <c:when test="${sessionScope.isEditable == true}">
-        <td>
-            <form:select items="${touristList}"  itemLabel="firstName" itemValue="id" path="tours.id"></form:select>
-        </td>
-        </c:when>
-    </c:choose>
-    </tr>--%>
-                <form:hidden path="id"/>
+            <td>
+                <form:select items="${touristList}"  id="selectCategory" itemLabel="firstName" itemValue="id" path="id">
+
+                </form:select>
+            </td>
+    <%--            <form:hidden path="id"/>--%>
                 <tr>
                     <td>First Name</td>
                     <td><form:input path="firstName" /></td>
@@ -86,21 +82,38 @@
         <form:hidden path="tours[${vs.index}].price"/>
          </c:forEach>
     </tr>
-    </tr>
 
             </table>
             </form:form>
         </div>
+
 <script>
-    $(document).ready(function(){
-        $("input").on("change", function() {
+    $(document).ready(function() {
+        $("input").on("change", function () {
             console.log("on change attribute")
             this.setAttribute(
                 "data-date",
                 moment(this.value, "YYYY-MM-DD")
-                    .format( this.getAttribute("data-date-format") )
+                    .format(this.getAttribute("data-date-format"))
             )
         }).trigger("change")
+
+        $("#selectCategory").change(function () {
+            var categoryId = $(this).val();
+            console.log()
+            $.ajax({
+                type: 'GET',
+                url: "/getTourist",
+                data:categoryId,
+                success: function (data) {
+
+                },
+                error: function () {
+                    alert("error");
+                }
+
+            });
+        })
     })
 </script>
 

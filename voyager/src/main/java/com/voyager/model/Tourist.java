@@ -1,6 +1,8 @@
 package com.voyager.model;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.jboss.logging.annotations.Message;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -42,8 +44,15 @@ public class Tourist implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tourist", fetch = FetchType.EAGER,targetEntity = Address.class)
     private List<Address> addressList;
 
-    @ManyToMany
-    @JoinTable(name="Tourist_Visits", joinColumns={@JoinColumn(name="tourist_id")}, inverseJoinColumns = {@JoinColumn(name="tour_id")})
+    @ManyToMany(fetch = FetchType.LAZY,cascade = { CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST},targetEntity = Tour.class)
+    @JoinTable(name="Tourist_Visits", joinColumns={@JoinColumn(name="tourist_id",nullable = false,updatable = false)}, inverseJoinColumns = {@JoinColumn(name="tour_id",nullable = false,updatable = false)},
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
+    )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Tour> tours;
 
 
