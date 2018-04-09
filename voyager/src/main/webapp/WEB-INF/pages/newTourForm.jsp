@@ -12,8 +12,37 @@
 <head>
 </head>
 <body>
-    <div align="center">
-            <h1>New/Edit Tour</h1>
+    <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+                <h1>New/Edit Tour</h1>
+                <form:form action="saveTour" method="post" modelAttribute="tour">
+                    <form:hidden path="id"/>
+        <div class="md-form">
+                            <p>Place</p>
+            <form:input path="placeName" class="form-control"/>
+        </div>
+        <div class="md-form">
+                            <p>Package Type:</p>
+                         <form:input path="packageType" class="form-control" />
+        </div>
+        <div class="md-form">
+                            <p>Package Name:</p>
+                            <form:input path="packageName" class="form-control"/>
+        </div>
+        <div class="md-form">
+            <p>Price: </p>
+            <form:input path="price" class="form-control" />
+        </div>
+        <div class="text-center mt-4">
+                            <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+                </form:form>
+            </div>
+</div>
+</body>
+</html>
+<%--
             <form:form action="saveTour" method="post" modelAttribute="tour">
             <table>
                 <form:hidden path="id"/>
@@ -38,6 +67,4 @@
                 </tr>
             </table>
             </form:form>
-        </div>
-</body>
-</html>
+--%>

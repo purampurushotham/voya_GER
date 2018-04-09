@@ -9,6 +9,7 @@
          isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@include file="header.jsp" %>
+<%@include file="newForm.jsp" %>
 <html>
 <head>
     <head>
@@ -30,7 +31,7 @@
                 <th>Alternate Address</th>
      
                 <c:forEach var="tourist" items="${touristList}">
-                    <tr>
+                    <tr onclick="openPopup(${tourist})">
      
                         <td>${tourist.firstName}</td>
                         <td>${tourist.lastName}</td>
@@ -52,7 +53,16 @@
                 </c:forEach>
             </table>
     </div>
+<script>
+    $(document).ready(function () {
+       function openPopup(tourist){
+           $("#centralModalInfo").modal("show");
 
+
+
+       }
+    });
+</script>
 </body>
 
 </html>

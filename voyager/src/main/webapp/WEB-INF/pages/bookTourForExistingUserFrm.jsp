@@ -15,48 +15,45 @@
     <title>Title</title>
 </head>
 <body>
-<div align="center">
-      <h1>Register Tourist</h1>
-            <form:form action="saveTourist" method="post" commandName="tourist">
-            <table>
-            <td>
-                <form:select items="${touristList}"  id="selectCategory" itemLabel="firstName" itemValue="id" path="id">
-
-                </form:select>
-            </td>
-    <%--            <form:hidden path="id"/>--%>
-                <tr>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+          <h1>Register Tourist</h1>
+                <form:form action="saveTourist" method="post" commandName="tourist">
+        <div class="md-form">
+            <form:select items="${touristList}"  id="selectCategory" itemLabel="firstName" itemValue="id" path="id">
+            </form:select>
+        <%--</div>
+                    <form:hidden path="id"/>
+        <div class="md-form">
                     <td>First Name</td>
-                    <td><form:input path="firstName" /></td>
-                </tr>
-                <tr>
+                    <td><form:input path="firstName" class="form-control" /></td>
+                </div>
+        <div class="md-form">
                     <td>Last Name</td>
-                    <td><form:input path="lastName" /></td>
-                </tr>
-                <tr>
-                    <td>Date of Birth:</td>
-    <%--                <td><input type="text" path="dob" class= "date" name = "dob" value = "<fmt:formatDate value="${dob}" pattern="DD/MM/YYYY" />"/></td>--%>
+                    <td><form:input path="lastName" class="form-control" /></td>
+        </div>
+        <div class="md-form">
+                    <p>Date of Birth:</p>
+    &lt;%&ndash;                <td><input type="text" path="dob" class= "date" name = "dob" value = "<fmt:formatDate value="${dob}" pattern="DD/MM/YYYY" />"/></td>&ndash;%&gt;
 
-    <td>
-        <input type="date" class="date" name="dob" data-date="" data-date-format="YYYY-MM-DD" value="2015-08-09">
-    </td>
-                </tr>
-                <tr>
+        <input type="date" class="date" name="dob" data-date="" data-date-format="YYYY-MM-DD" value="2015-08-09" class="form-control">
+        </div>
+        <div class="md-form">
     <form:hidden path="passport.p_id" />
-                    <td>Passport:</td>
-                    <td><form:input path="passport.type" /><br>
-    <input class="date" type="date" name="passport.expiredDate" data-date="" data-date-format="YYYY-MM-DD" value="2015-08-09" /><br>                   <%--<form:input path="passport.expiredDate" type="date" /><br>--%>
-    <form:input path="passport.issuedBy" /><br>
-    </td>
-                </tr>
+                    <p>Passport:</p>
+                    <form:input path="passport.type" class="form-control" /><br>
+    <input class="date" type="date" name="passport.expiredDate" data-date="" data-date-format="YYYY-MM-DD" value="2015-08-09" class="form-control" /><br>                   &lt;%&ndash;<form:input path="passport.expiredDate" type="date" /><br>&ndash;%&gt;
+    <form:input path="passport.issuedBy" class="form-control" /><br>
+        </div>
+        <div class="md-form">
       <c:forEach items="${tourist.addressList}" varStatus="vs">
-    <tr>
         <c:choose>
             <c:when test="${vs.index=='0'}">
-                <td>Primary Address:</td>
+                <p>Primary Address:</p>
             </c:when>
             <c:otherwise>
-                <td>Alternate Address:</td>
+                <p>Alternate Address:</p>
             </c:otherwise>
         </c:choose>
         <form:hidden path="addressList[${vs.index}].id"/>
@@ -68,12 +65,12 @@
         <td><form:input path="addressList[${vs.index}].state"/></td>
         <td>Zipcode: </td>
         <td><form:input path="addressList[${vs.index}].zipcode"/></td>
-    </tr>
                 </c:forEach>
-                <tr>
-                    <td colspan="2" align="center"><input type="submit" value="Save"></td>
-                </tr>
-    <tr>
+        </div>
+        <div class="text-center mt-4">
+            <button class="btn btn-primary" type="submit">Save</button>
+                        </div>--%>
+    <p>
          <c:forEach items="${tourist.tours}"  var ="tourPackage" varStatus="vs">
         <form:hidden path="tours[${vs.index}].id"/>
         <form:hidden path="tours[${vs.index}].placeName"/>
@@ -81,11 +78,16 @@
         <form:hidden path="tours[${vs.index}].packageName"/>
         <form:hidden path="tours[${vs.index}].price"/>
          </c:forEach>
-    </tr>
+    </p>
 
-            </table>
+                </div>
             </form:form>
-        </div>
+
+        <div id="container">
+
+        </div>
+</div>
+</div>
 
 <script>
     $(document).ready(function() {
@@ -97,21 +99,19 @@
                     .format(this.getAttribute("data-date-format"))
             )
         }).trigger("change")
-
         $("#selectCategory").change(function () {
             var categoryId = $(this).val();
-            console.log()
-            $.ajax({
-                type: 'GET',
-                url: "/getTourist",
-                data:categoryId,
-                success: function (data) {
+            console.log(categoryId);
+            var tourId = ${tour.id}
+            $.get("<c:url value="/getTourist" />",{id:categoryId,tourId:tourId}, function(data) {
+                var content = '';
+                console.log("testing")
+                $('#container').html(data);
+                /* $.each(data, function(){
+                     content += '<option value="' + this.stateId + '">' + this.stateName + '</option>';
+                 });
 
-                },
-                error: function () {
-                    alert("error");
-                }
-
+                 */
             });
         })
     })

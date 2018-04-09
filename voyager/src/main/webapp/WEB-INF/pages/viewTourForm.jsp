@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="header.jsp" %>
-<%@include file="newForm.jsp" %>
+<%--<%@include file="newForm.jsp" %>--%>
 
     <html>
     <head>
@@ -40,8 +40,8 @@
             onclick="window.location.href='/newTourist?id=${tour.id}'">Book to New </button>
     <button class="btn btn-danger btn-rounded"
             onclick="window.location.href='/getAllTourists?id=${tour.id}'">Book to Existing </button>
-        <button class="btn peach-gradient btn-rounded"
-                data-toggle="modal" data-target="#centralModalInfo" >Modal</button>
+        <%--<button class="btn peach-gradient btn-rounded"
+                data-toggle="modal" data-target="#newTourist" >Modal</button>--%>
     </li>
     </ul>
     </p>
@@ -49,6 +49,18 @@
     </div>
     </div>
     </div>
+    <%--<script>
+        $(document).ready(function(){
+            $("#centralModalInfo").on("show.bs.modal", function(e) {
+                var id = $(e.relatedTarget).data('target-id');
+                console.log("id")
+                $.get( "/newTourist/" + id, function( data ) {
+                    $(".modal-body").html(data.html);
+                });
+
+            });
+        });
+    </script>--%>
     </body>
     </html>
     <%--<div align="center">

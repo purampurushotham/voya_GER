@@ -15,10 +15,12 @@
     <title>Voyager</title>
 </head>
 <body>
-<div align="center">
+        <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+
             <h1>Register Tourist</h1>
             <form:form action="saveTourist" method="post" commandName="tourist">
-            <table>
     <%--<tr>
         <c:choose>
         <c:when test="${sessionScope.isEditable == true}">
@@ -29,55 +31,51 @@
     </c:choose>
     </tr>--%>
                 <form:hidden path="id"/>
-                <tr>
-                    <td>First Name</td>
-                    <td><form:input path="firstName" /></td>
-                </tr>
-                <tr>
-                    <td>Last Name</td>
-                    <td><form:input path="lastName" /></td>
-                </tr>
-                <tr>
-                    <td>Date of Birth:</td>
-    <%--                <td><input type="text" path="dob" class= "date" name = "dob" value = "<fmt:formatDate value="${dob}" pattern="DD/MM/YYYY" />"/></td>--%>
+    <div class="md-form">
+                    <p>First Name</p>
+                <form:input path="firstName" class="form-control" />
+    </div>
+    <div class="md-form">
+                    <p>Last Name</p>
+                    <form:input path="lastName" class="form-control"/>
+    </div>
+    <div class="md-form">
+                    <p>Date of Birth:</p>
 
-    <td>
-        <input type="date" class="date" name="dob" data-date="" data-date-format="YYYY-MM-DD" value="2015-08-09">
-    </td>
-                </tr>
-                <tr>
+        <input type="date" class="date form-control" name="dob" data-date="" data-date-format="YYYY-MM-DD" value="2015-08-09">
+    </div>
+    <div class="md-form">
     <form:hidden path="passport.p_id" />
-                    <td>Passport:</td>
-                    <td><form:input path="passport.type" /><br>
-    <input class="date" type="date" name="passport.expiredDate" data-date="" data-date-format="YYYY-MM-DD" value="2015-08-09" /><br>                   <%--<form:input path="passport.expiredDate" type="date" /><br>--%>
-    <form:input path="passport.issuedBy" /><br>
-    </td>
-                </tr>
+                    <p>Passport:</p>
+    <form:input path="passport.type" class="form-control" /><br>
+    <input class="date form-control" type="date" name="passport.expiredDate" data-date="" data-date-format="YYYY-MM-DD" value="2015-08-09" /><br>                   <%--<form:input path="passport.expiredDate" type="date" /><br>--%>
+    <form:input path="passport.issuedBy" class="form-control" /><br>
+    </div>
+        <div class="md-form">
       <c:forEach items="${tourist.addressList}" varStatus="vs">
-    <tr>
         <c:choose>
             <c:when test="${vs.index=='0'}">
-                <td>Primary Address:</td>
+                <p>Primary Address:</p>
             </c:when>
             <c:otherwise>
-                <td>Alternate Address:</td>
+                <p>Alternate Address:</p>
             </c:otherwise>
         </c:choose>
         <form:hidden path="addressList[${vs.index}].id"/>
         <td>City: </td>
-        <td><form:input path="addressList[${vs.index}].city"/></td>
+        <td><form:input path="addressList[${vs.index}].city" class="form-control"/></td>
         <td>Street: </td>
-        <td><form:input path="addressList[${vs.index}].street"/></td>
+        <td><form:input path="addressList[${vs.index}].street" class="form-control"/></td>
         <td>State: </td>
-        <td><form:input path="addressList[${vs.index}].state"/></td>
+        <td><form:input path="addressList[${vs.index}].state" class="form-control" /></td>
         <td>Zipcode: </td>
-        <td><form:input path="addressList[${vs.index}].zipcode"/></td>
-    </tr>
+        <td><form:input path="addressList[${vs.index}].zipcode" class="form-control" /></td>
                 </c:forEach>
-                <tr>
-                    <td colspan="2" align="center"><input type="submit" value="Save"></td>
-                </tr>
-    <tr>
+        </div>
+    <div class="text-center mt-4">
+                        <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+    <p>
          <c:forEach items="${tourist.tours}"  var ="tourPackage" varStatus="vs">
         <form:hidden path="tours[${vs.index}].id"/>
         <form:hidden path="tours[${vs.index}].placeName"/>
@@ -85,12 +83,10 @@
         <form:hidden path="tours[${vs.index}].packageName"/>
         <form:hidden path="tours[${vs.index}].price"/>
          </c:forEach>
-    </tr>
-    </tr>
-
-            </table>
-            </form:form>
+    </p>
+    </form:form>
         </div>
+</div>
 <script>
     $(document).ready(function(){
         $("input").on("change", function() {
