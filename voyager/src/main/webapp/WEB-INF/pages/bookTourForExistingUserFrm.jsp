@@ -98,7 +98,8 @@
                 moment(this.value, "YYYY-MM-DD")
                     .format(this.getAttribute("data-date-format"))
             )
-        }).trigger("change")
+        }).trigger("change");
+
         $("#selectCategory").change(function () {
             var categoryId = $(this).val();
             console.log(categoryId);
@@ -107,11 +108,6 @@
                 var content = '';
                 console.log("testing")
                 $('#container').html(data);
-                /* $.each(data, function(){
-                     content += '<option value="' + this.stateId + '">' + this.stateName + '</option>';
-                 });
-
-                 */
             });
         })
     })

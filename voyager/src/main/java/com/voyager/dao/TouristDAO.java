@@ -10,5 +10,6 @@ public interface TouristDAO {
     public void deleteTourist(Integer Id);
     public Tourist updateTourist(Tourist tour);
     public Tourist getTourist(Integer Id);
+    public List<Tourist> searchTourist(String name);
 }
 

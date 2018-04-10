@@ -148,4 +148,20 @@ public class TouristController {
         model.addAttribute("tourist", tourist);
         return new ModelAndView("editJSPForm");
     }
+    @RequestMapping(value = "/viewTourist",method = RequestMethod.GET)
+    public ModelAndView viewTourist(HttpServletRequest request){
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        Tourist tourist = touristService.getTourist(id);
+        ModelAndView modelAndView = new ModelAndView("viewTourist");
+        modelAndView.addObject("tourist",tourist);
+        return modelAndView;
+    }
+    @RequestMapping(value = "/searchTourist",method = RequestMethod.GET)
+    public @ResponseBody ModelAndView searchTourist(HttpServletRequest request){
+        String name = request.getParameter("name");
+        List touristList = touristService.searchTourist(name);
+        ModelAndView modelAndView = new ModelAndView("tourists");
+        modelAndView.addObject("touristList", touristList);
+        return modelAndView;
+    }
 }

@@ -6,8 +6,11 @@ import com.voyager.model.Tour;
 import com.voyager.model.Tourist;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Iterator;
 import java.util.List;
@@ -15,8 +18,8 @@ import java.util.List;
 @Repository
 public class TouristDAOImpl implements TouristDAO {
 
-@Autowired
-private SessionFactory sessionFactory;
+    @Autowired
+    private SessionFactory sessionFactory;
     public void addTourist(Tourist tourist) {
         System.out.println("AddTourist");
         tourist = setAddressAssocaition(tourist);
@@ -51,6 +54,25 @@ private SessionFactory sessionFactory;
         System.out.println("getTourist");
         return  (Tourist)sessionFactory.getCurrentSession().get(Tourist.class,Id);
     }
+
+    @Override
+    public List<Tourist> searchTourist(String searchKey) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Tourist.class,"tourist");
+        /*criteria.createCriteria("addressList").add(Restrictions.sqlRestriction("zipcode LIKE '%"+searchKey+"%' "));*/
+        criteria.createAlias("tourist.addressList","address");
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        criteria.add(Restrictions.or(
+                Restrictions.ilike("firstName",searchKey, MatchMode.ANYWHERE),
+                Restrictions.ilike("lastName",searchKey, MatchMode.ANYWHERE),
+                Restrictions.ilike("address.city",searchKey, MatchMode.ANYWHERE),
+                Restrictions.ilike("address.street",searchKey, MatchMode.ANYWHERE),
+                Restrictions.ilike("address.state",searchKey, MatchMode.ANYWHERE)
+        ));
+        System.out.println("criteria");
+        System.out.println( criteria.list());
+        return (List<Tourist>) criteria.list();
+    }
+
     public Tourist setAddressAssocaition(Tourist tourist){
         List<Address> touristAddress = tourist.getAddressList();
         Iterator<Address> addressIterator = touristAddress.listIterator();
@@ -60,9 +82,4 @@ private SessionFactory sessionFactory;
         }
         return tourist;
     }
-    /*public Tourist setPassportAssociation(Tourist tourist){
-        Passport passport =tourist.getPassport();
-        passport
-        return tourist;
-    }*/
 }

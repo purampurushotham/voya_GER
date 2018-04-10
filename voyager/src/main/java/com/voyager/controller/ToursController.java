@@ -1,5 +1,6 @@
 package com.voyager.controller;
 
+import com.google.gson.Gson;
 import com.sun.corba.se.impl.oa.toa.TOA;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.voyager.model.Tour;
@@ -9,12 +10,11 @@ import com.voyager.service.TouristService;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.jboss.logging.Logger;
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashSet;
@@ -100,5 +100,13 @@ public class ToursController {
         modelAndView.addObject("tour",tour);
         /*modelAndView.addObject("tourName",tour.getPackageName());*/
         return modelAndView;
+    }
+    @RequestMapping(value="/getTourPackages",method = RequestMethod.GET)
+    public @ResponseBody List searchTour(HttpServletRequest request){
+        String tourName = request.getParameter("term");
+        System.out.println(tourName);
+        List tourList = tourService.searchPackages(tourName);
+        /*Gson gson = new Gson();*/
+        return tourList;
     }
 }

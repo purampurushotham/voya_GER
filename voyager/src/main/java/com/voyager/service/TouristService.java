@@ -11,4 +11,5 @@ public interface TouristService {
     public Tourist getTourist(Integer touristId);
     public void deleteTourist(Integer touristId);
     public Tourist updateTourist(Tourist tourist);
+    public List<Tourist> searchTourist(String name);
 }

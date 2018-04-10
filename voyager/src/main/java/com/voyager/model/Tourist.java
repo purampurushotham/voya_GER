@@ -13,11 +13,9 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
-
 @Entity
 @Table(name = "TOURIST_TBL")
 public class Tourist implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

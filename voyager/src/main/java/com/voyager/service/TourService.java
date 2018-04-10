@@ -10,4 +10,5 @@ public interface TourService {
     public Tour getTour(Integer tourId);
     public void deleteTour(Integer tourId);
     public Tour updateTour(Tour tour);
+    public List<Tour> searchPackages(String pName);
 }

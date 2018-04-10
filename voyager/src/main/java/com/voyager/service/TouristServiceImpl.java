@@ -34,4 +34,7 @@ public class TouristServiceImpl implements TouristService {
     @Override
     @Transactional
     public Tourist updateTourist(Tourist tourist) { return touristDAO.updateTourist(tourist); }
+
+    @Override
+    public List<Tourist> searchTourist(String name) { return touristDAO.searchTourist(name); }
 }

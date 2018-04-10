@@ -10,4 +10,5 @@ public interface TourDAO {
     public void deleteTour(Integer Id);
     public Tour updateTour(Tour tour);
     public Tour getTour(Integer Id);
+    public List<Tour> searchPackages(String pName);
 }

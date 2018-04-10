@@ -40,6 +40,9 @@ public class TourServiceImpl implements TourService {
         return tourDAO.updateTour(tour);
     }
 
+    @Override
+    public List<Tour> searchPackages(String pName) { return tourDAO.searchPackages(pName); }
+
     public void setEmployeeDAO(TourDAO tourDAO) {
         this.tourDAO = tourDAO;
     }
