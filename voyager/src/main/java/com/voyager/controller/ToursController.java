@@ -10,6 +10,7 @@ import com.voyager.service.TouristService;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.jboss.logging.Logger;
@@ -45,14 +46,14 @@ public class ToursController {
         return new ModelAndView("home");
     }
     @RequestMapping(value = "/tours")
-    public ModelAndView toursList(ModelAndView model) throws IOException {
+    public String toursList(ModelMap model){
         List<Tour> toursList = tourService.getAllTours();
-        model.setViewName("tours");
-        model.addObject("toursList",toursList);
-        return model;
+        /*model.addAttribute("tours");*/
+        model.addAttribute("toursList",toursList);
+        return "tours";
     }
     @RequestMapping(value = "/saveTour", method = RequestMethod.POST)
-    public ModelAndView saveTour(@ModelAttribute Tour tour){
+    public String saveTour(@ModelAttribute Tour tour){
         System.out.println("Save Tour");
         System.out.println(tour.getId());
         if(tour.getId() == 0){
@@ -61,7 +62,7 @@ public class ToursController {
         else{
             tourService.updateTour(tour);
         }
-        return new ModelAndView("redirect:/tours");
+        return "tours";
     }
 
     @RequestMapping(value="/newTour",method = RequestMethod.GET)
