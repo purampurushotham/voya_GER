@@ -1,0 +1,250 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TouristController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.voyager.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TouristController (com.voyager.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TouristController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 87)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.voyager.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.voyager.model.Address;
+<i>4</i>&nbsp;import com.voyager.model.Tour;
+<i>5</i>&nbsp;import com.voyager.model.Tourist;
+<i>6</i>&nbsp;import com.voyager.service.AddressService;
+<i>7</i>&nbsp;import com.voyager.service.TourService;
+<i>8</i>&nbsp;import com.voyager.service.TouristService;
+<i>9</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>10</i>&nbsp;import org.springframework.beans.propertyeditors.CustomDateEditor;
+<i>11</i>&nbsp;import org.springframework.http.MediaType;
+<i>12</i>&nbsp;import org.springframework.stereotype.Controller;
+<i>13</i>&nbsp;import org.springframework.ui.Model;
+<i>14</i>&nbsp;import org.springframework.ui.ModelMap;
+<i>15</i>&nbsp;import org.springframework.validation.BindingResult;
+<i>16</i>&nbsp;import org.springframework.web.bind.WebDataBinder;
+<i>17</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i>18</i>&nbsp;import org.springframework.web.servlet.ModelAndView;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;import javax.servlet.http.HttpServletRequest;
+<i>21</i>&nbsp;import javax.servlet.http.HttpSession;
+<i>22</i>&nbsp;import javax.validation.Valid;
+<i>23</i>&nbsp;import java.text.SimpleDateFormat;
+<i>24</i>&nbsp;import java.util.*;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;@Controller
+<b class="nc"><i>27</i>&nbsp;public class TouristController {</b>
+<i>28</i>&nbsp;    @InitBinder
+<i>29</i>&nbsp;    public void initBinder(WebDataBinder binder) {
+<b class="nc"><i>30</i>&nbsp;        System.out.println(&quot;init Builder&quot;);</b>
+<b class="nc"><i>31</i>&nbsp;        SimpleDateFormat sdf = new SimpleDateFormat(&quot;YYYY-MM-DD&quot;);</b>
+<b class="nc"><i>32</i>&nbsp;        sdf.setLenient(true);</b>
+<b class="nc"><i>33</i>&nbsp;        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @Autowired
+<i>37</i>&nbsp;    private TouristService touristService;
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    @Autowired
+<i>40</i>&nbsp;    private TourService tourService;
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    @Autowired
+<i>43</i>&nbsp;    private AddressService addressService;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    @RequestMapping(value = &quot;/newTourist&quot;, method = RequestMethod.GET)
+<i>46</i>&nbsp;    public ModelAndView newTourist(HttpServletRequest request, HttpSession session) {
+<b class="nc"><i>47</i>&nbsp;        String param = request.getParameter(&quot;id&quot;);</b>
+<b class="nc"><i>48</i>&nbsp;        Integer tourId = Integer.parseInt(request.getParameter(&quot;id&quot;));</b>
+<b class="nc"><i>49</i>&nbsp;        Tour tour = tourService.getTour(tourId);</b>
+<b class="nc"><i>50</i>&nbsp;        List&lt;Tour&gt; tourList = new LinkedList&lt;Tour&gt;();</b>
+<b class="nc"><i>51</i>&nbsp;        Tourist tourist = new Tourist();</b>
+<b class="nc"><i>52</i>&nbsp;        tourList.add(tour);</b>
+<b class="nc"><i>53</i>&nbsp;        tourist.setTours(tourList);</b>
+<b class="nc"><i>54</i>&nbsp;        tour.getTouristSet().add(tourist);</b>
+<b class="nc"><i>55</i>&nbsp;        Address address1 = new Address();</b>
+<b class="nc"><i>56</i>&nbsp;        Address address2 = new Address();</b>
+<b class="nc"><i>57</i>&nbsp;        List&lt;Address&gt; addressesList = new LinkedList&lt;Address&gt;();</b>
+<b class="nc"><i>58</i>&nbsp;        addressesList.add(address1);</b>
+<b class="nc"><i>59</i>&nbsp;        addressesList.add(address2);</b>
+<b class="nc"><i>60</i>&nbsp;        tourist.setAddressList(addressesList);</b>
+<b class="nc"><i>61</i>&nbsp;        address1.setTourist(tourist);</b>
+<b class="nc"><i>62</i>&nbsp;        address2.setTourist(tourist);</b>
+<b class="nc"><i>63</i>&nbsp;        ModelAndView modelAndView = new ModelAndView(&quot;touristForm&quot;);</b>
+<b class="nc"><i>64</i>&nbsp;        modelAndView.addObject(&quot;tourist&quot;, tourist);</b>
+<i>65</i>&nbsp;        /*modelAndView.setViewName(&quot;touristForm&quot;);*/
+<b class="nc"><i>66</i>&nbsp;        return modelAndView;</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    @RequestMapping(value = &quot;/saveTourist&quot;, method = RequestMethod.POST)
+<i>70</i>&nbsp;    public ModelAndView saveTourist(ModelAndView modelAndView, Model model, @Valid Tourist tourist, BindingResult result) {
+<b class="nc"><i>71</i>&nbsp;        System.out.println(&quot;save tourist&quot;);</b>
+<b class="nc"><i>72</i>&nbsp;        System.out.println(result);</b>
+<b class="nc"><i>73</i>&nbsp;        List&lt;Tour&gt; tourList = tourist.getTours();</b>
+<b class="nc"><i>74</i>&nbsp;        List&lt;Tourist&gt; touristList = new LinkedList&lt;Tourist&gt;();</b>
+<b class="nc"><i>75</i>&nbsp;        touristList.add(tourist);</b>
+<b class="nc"><i>76</i>&nbsp;        Iterator&lt;Tour&gt; tourIterator = tourList.iterator();</b>
+<b class="nc"><i>77</i>&nbsp;        while (tourIterator.hasNext()) {</b>
+<b class="nc"><i>78</i>&nbsp;            tourIterator.next().setTouristSet(touristList);</b>
+<i>79</i>&nbsp;        }
+<b class="nc"><i>80</i>&nbsp;        if (tourist.getId() == 0) {</b>
+<b class="nc"><i>81</i>&nbsp;            touristService.addTourist(tourist);</b>
+<i>82</i>&nbsp;        } else {
+<b class="nc"><i>83</i>&nbsp;            touristService.updateTourist(tourist);</b>
+<i>84</i>&nbsp;        }
+<b class="nc"><i>85</i>&nbsp;        modelAndView = new ModelAndView(&quot;redirect:/tourists&quot;);</b>
+<b class="nc"><i>86</i>&nbsp;        modelAndView.addObject(&quot;successMsg&quot;, true);</b>
+<b class="nc"><i>87</i>&nbsp;        return modelAndView;</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    @RequestMapping(value = &quot;/tourists&quot;, method = RequestMethod.GET)
+<i>91</i>&nbsp;    public ModelAndView getTourists(ModelAndView modelAndView) {
+<b class="nc"><i>92</i>&nbsp;        List&lt;Tourist&gt; touristList = touristService.getAllTourists();</b>
+<b class="nc"><i>93</i>&nbsp;        System.out.println(&quot;tourists&quot;);</b>
+<b class="nc"><i>94</i>&nbsp;        System.out.println(touristList);</b>
+<b class="nc"><i>95</i>&nbsp;        modelAndView.addObject(&quot;touristList&quot;, touristList);</b>
+<b class="nc"><i>96</i>&nbsp;        modelAndView.setViewName(&quot;tourists&quot;);</b>
+<b class="nc"><i>97</i>&nbsp;        return modelAndView;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    @RequestMapping(value = &quot;/editTourist&quot;, method = RequestMethod.GET)
+<i>101</i>&nbsp;    public ModelAndView editEmployee(HttpServletRequest request) {
+<b class="nc"><i>102</i>&nbsp;        Integer id = Integer.parseInt(request.getParameter(&quot;id&quot;));</b>
+<b class="nc"><i>103</i>&nbsp;        Tourist tourist = touristService.getTourist(id);</b>
+<b class="nc"><i>104</i>&nbsp;        ModelAndView modelAndView = new ModelAndView(&quot;touristForm&quot;);</b>
+<b class="nc"><i>105</i>&nbsp;        modelAndView.addObject(&quot;tourist&quot;, tourist);</b>
+<b class="nc"><i>106</i>&nbsp;        return modelAndView;</b>
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    @RequestMapping(value = &quot;/deleteTourist&quot;, method = RequestMethod.GET)
+<i>110</i>&nbsp;    public ModelAndView deleteTourist(HttpServletRequest request) {
+<b class="nc"><i>111</i>&nbsp;        Integer touristId = Integer.parseInt(request.getParameter(&quot;id&quot;));</b>
+<b class="nc"><i>112</i>&nbsp;        touristService.deleteTourist(touristId);</b>
+<b class="nc"><i>113</i>&nbsp;        return new ModelAndView(&quot;redirect:/tourists&quot;);</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    @RequestMapping(value = &quot;/getAllTourists&quot;, method = RequestMethod.GET)
+<i>117</i>&nbsp;    public ModelAndView getAllTourists(HttpServletRequest request) {
+<b class="nc"><i>118</i>&nbsp;        Integer id = Integer.parseInt(request.getParameter(&quot;id&quot;));</b>
+<b class="nc"><i>119</i>&nbsp;        Tour tour = tourService.getTour(id);</b>
+<b class="nc"><i>120</i>&nbsp;        Tourist tourist = new Tourist();</b>
+<b class="nc"><i>121</i>&nbsp;        List&lt;Tourist&gt; touristList = touristService.getAllTourists();</b>
+<b class="nc"><i>122</i>&nbsp;        ModelAndView modelAndView = new ModelAndView(&quot;bookTourForExistingUserFrm&quot;);</b>
+<b class="nc"><i>123</i>&nbsp;        modelAndView.addObject(&quot;touristList&quot;, touristList);</b>
+<b class="nc"><i>124</i>&nbsp;        modelAndView.addObject(&quot;tourist&quot;, tourist);</b>
+<b class="nc"><i>125</i>&nbsp;        modelAndView.addObject(&quot;tour&quot;, tour);</b>
+<b class="nc"><i>126</i>&nbsp;        return modelAndView;</b>
+<i>127</i>&nbsp;    }
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    /*mapping for ajax request*/
+<i>130</i>&nbsp;    @RequestMapping(value = &quot;/getTourist&quot;, method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+<i>131</i>&nbsp;    public @ResponseBody
+<i>132</i>&nbsp;    ModelAndView getTourist(@RequestParam Integer id, @RequestParam Integer tourId, ModelMap model) {
+<b class="nc"><i>133</i>&nbsp;        System.out.println(&quot;getTourist&quot;);</b>
+<b class="nc"><i>134</i>&nbsp;        Tour tour = tourService.getTour(tourId);</b>
+<b class="nc"><i>135</i>&nbsp;        Tourist tourist = touristService.getTourist(id);</b>
+<b class="nc"><i>136</i>&nbsp;        List&lt;Tour&gt; tourList = tourist.getTours();</b>
+<b class="nc"><i>137</i>&nbsp;        Iterator&lt;Tour&gt; tourIterator = tourList.listIterator();</b>
+<b class="nc"><i>138</i>&nbsp;        while (tourIterator.hasNext()) {</b>
+<b class="nc"><i>139</i>&nbsp;            Tour tourit = tourIterator.next();</b>
+<b class="nc"><i>140</i>&nbsp;            if (tourit.getId() == tourId) {</b>
+<b class="nc"><i>141</i>&nbsp;                tourList.remove(tourit);</b>
+<i>142</i>&nbsp;            }
+<b class="nc"><i>143</i>&nbsp;        }</b>
+<b class="nc"><i>144</i>&nbsp;        tourist.getTours().add(tour);</b>
+<b class="nc"><i>145</i>&nbsp;        List&lt;Address&gt; addressesList = new LinkedList&lt;Address&gt;();</b>
+<b class="nc"><i>146</i>&nbsp;        addressesList.addAll(tourist.getAddressList());</b>
+<b class="nc"><i>147</i>&nbsp;        tourist.setAddressList(addressesList);</b>
+<b class="nc"><i>148</i>&nbsp;        model.addAttribute(&quot;tourist&quot;, tourist);</b>
+<b class="nc"><i>149</i>&nbsp;        return new ModelAndView(&quot;editJSPForm&quot;);</b>
+<i>150</i>&nbsp;    }
+<i>151</i>&nbsp;    @RequestMapping(value = &quot;/viewTourist&quot;,method = RequestMethod.GET)
+<i>152</i>&nbsp;    public ModelAndView viewTourist(HttpServletRequest request){
+<b class="nc"><i>153</i>&nbsp;        Integer id = Integer.parseInt(request.getParameter(&quot;id&quot;));</b>
+<b class="nc"><i>154</i>&nbsp;        Tourist tourist = touristService.getTourist(id);</b>
+<b class="nc"><i>155</i>&nbsp;        ModelAndView modelAndView = new ModelAndView(&quot;viewTourist&quot;);</b>
+<b class="nc"><i>156</i>&nbsp;        modelAndView.addObject(&quot;tourist&quot;,tourist);</b>
+<b class="nc"><i>157</i>&nbsp;        return modelAndView;</b>
+<i>158</i>&nbsp;    }
+<i>159</i>&nbsp;    @RequestMapping(value = &quot;/searchTourist&quot;,method = RequestMethod.GET)
+<i>160</i>&nbsp;    public @ResponseBody ModelAndView searchTourist(HttpServletRequest request){
+<b class="nc"><i>161</i>&nbsp;        String name = request.getParameter(&quot;name&quot;);</b>
+<b class="nc"><i>162</i>&nbsp;        List touristList = touristService.searchTourist(name);</b>
+<b class="nc"><i>163</i>&nbsp;        ModelAndView modelAndView = new ModelAndView(&quot;tourists&quot;);</b>
+<b class="nc"><i>164</i>&nbsp;        modelAndView.addObject(&quot;touristList&quot;, touristList);</b>
+<b class="nc"><i>165</i>&nbsp;        return modelAndView;</b>
+<i>166</i>&nbsp;    }
+<i>167</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-04-12 20:31</div>
+</div>
+</body>
+</html>
