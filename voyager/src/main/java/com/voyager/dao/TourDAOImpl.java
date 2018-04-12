@@ -1,6 +1,7 @@
 package com.voyager.dao;
 import com.voyager.model.Tour;
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class TourDAOImpl implements TourDAO{
     @SuppressWarnings("unchecked")
     public List<Tour> getAllTours() {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Tour.class);
+        Session session = sessionFactory.getCurrentSession();
+
         System.out.println("getAllTours");
         System.out.println(criteria.list());
         return criteria.list();

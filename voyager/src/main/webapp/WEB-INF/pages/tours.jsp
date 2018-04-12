@@ -66,8 +66,9 @@
             minLength: 1,
             source: function (request, response) {
                 $.getJSON("/getTourPackages", request, function (result) {
+                    console.log(result);
                     response($.map(result, function (item,index) {
-                        console.log(item[0]);
+                        console.log(item);
                         var name = item[0]
                         return {
                             // following property gets displayed in drop down

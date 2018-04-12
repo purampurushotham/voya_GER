@@ -1,5 +1,6 @@
 package com.voyager.model;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.util.*;
 @Entity
 @Table(name = "TOURIST_TBL")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Tourist implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

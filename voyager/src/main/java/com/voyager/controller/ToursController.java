@@ -45,21 +45,23 @@ public class ToursController {
     public ModelAndView home(){
         return new ModelAndView("home");
     }
+
     @RequestMapping(value = "/tours")
-    public String toursList(ModelMap model){
+    public ModelAndView toursList(){
         List<Tour> toursList = tourService.getAllTours();
-        /*model.addAttribute("tours");*/
-        model.addAttribute("toursList",toursList);
-        return "tours";
+        ModelAndView modelAndView=  new ModelAndView("tours");
+        modelAndView.addObject("toursList",toursList);
+        return modelAndView;
     }
     @RequestMapping(value = "/saveTour", method = RequestMethod.POST)
     public String saveTour(@ModelAttribute Tour tour){
-        System.out.println("Save Tour");
         System.out.println(tour.getId());
         if(tour.getId() == 0){
+            System.out.println("Save Tour");
             tourService.addTour(tour);
         }
         else{
+            System.out.println("Update Tour");
             tourService.updateTour(tour);
         }
         return "tours";
