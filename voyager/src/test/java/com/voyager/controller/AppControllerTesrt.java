@@ -1,15 +1,11 @@
-package test.controller;
+package com.voyager.controller;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.sun.corba.se.impl.oa.toa.TOA;
 import com.voyager.controller.ToursController;
 import com.voyager.model.Tour;
 import com.voyager.service.TourService;
@@ -18,17 +14,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
-import org.springframework.context.MessageSource;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ModelAndView;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import javax.servlet.http.HttpServletRequest;
 
 public class AppControllerTesrt {
 
