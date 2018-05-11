@@ -9,5 +9,5 @@ import java.util.List;
 public interface StudentService {
     public void addStudent(Student student);
     public Student getStudent(Integer studentId);
-    public List<User> getAllFranchises();
+    public List<User> getAllStudents();
 }

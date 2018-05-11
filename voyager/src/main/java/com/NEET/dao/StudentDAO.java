@@ -13,5 +13,5 @@ import java.util.List;
 public interface StudentDAO {
 public void addStudent(Student student);
 public Student getStudent(Integer studentId);
-    public List<User> getAllFranchises();
+    public List<User> getAllStudents();
 }

@@ -3,6 +3,7 @@ package com.NEET.controller;
 import com.NEET.model.Franchise;
 import com.NEET.model.Student;
 import com.NEET.model.User;
+import com.NEET.service.FranchiseService;
 import com.NEET.service.StudentService;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class UserController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private FranchiseService franchiseService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String setIndex(){
         return "redirect:/home";
@@ -31,12 +35,18 @@ public class UserController {
 
     @RequestMapping(value = "/home",method = RequestMethod.POST)
     public ResponseEntity<Void> home(UriComponentsBuilder ucBuilder){
-        Student s = new Student();
-        Franchise f = new Franchise();
-        createObject(s);
-        studentService.addStudent(s);
+        User user_student= new User();
+        User user_franchise = new User();
+        Student student;
+        Franchise franchise;
+        createUser(user_student);
+        createUser(user_franchise);
+        student = createStudent(user_student);
+        franchise = createFrancise(user_franchise);
+        studentService.addStudent(student);
+        franchiseService.addFrancise(franchise);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(s.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(student.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 
     }
@@ -50,16 +60,23 @@ public class UserController {
         }
         return new ResponseEntity<User>(student, HttpStatus.OK);
     }
-    @RequestMapping(value = "/franchises", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> getUser() {
-        List<User> student = studentService.getAllFranchises();
+    @RequestMapping(value = "/students", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<User>> getStudents() {
+        List<User> student = studentService.getAllStudents();
         if (student == null) {
             return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<List<User>>(student, HttpStatus.OK);
     }
-    public void createObject(Student s){
-        s.setQualification("test");
+    @RequestMapping(value = "/franchises", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<User>> getFranchises() {
+        List<User> franchises = franchiseService.getAllFranchises();
+        if (franchises == null) {
+            return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<User>>(franchises, HttpStatus.OK);
+    }
+    public void createUser(User s){
         s.setAadharNo("1111111");
         s.setAddressOne("test");
         s.setAddressTwo("test");
@@ -75,5 +92,16 @@ public class UserController {
         s.setState("test");
         s.setStatus("test");
         s.setZipcode(32232);
+    }
+    public Student createStudent(User user){
+        Student student = (Student) user;
+        student.setQualification("test");
+        return student;
+    }
+    public Franchise createFrancise(User user){
+        Franchise franchise = (Franchise)  user;
+        franchise.setActive(true);
+        franchise.setFranchiseREGNO("125000000");
+        return franchise;
     }
 }

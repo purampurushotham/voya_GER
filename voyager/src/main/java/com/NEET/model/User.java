@@ -1,13 +1,19 @@
 package com.NEET.model;
 
 
+import com.voyager.model.Tour;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="USER_TBL")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)
 @DiscriminatorValue("User")
 public class User implements Serializable{
@@ -83,6 +89,20 @@ public class User implements Serializable{
     @Column(name="AADHARNO")
     @NotNull
     private String aadharNo;
+
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
+    }
+
+    @JoinTable(name = "franchise_student", joinColumns = {
+            @JoinColumn(name = "franchise", referencedColumnName = "user_id", nullable = false)}, inverseJoinColumns = {
+            @JoinColumn(name = "student", referencedColumnName = "user_id", nullable = false)})
+    @ManyToMany
+    private Set<User> userSet;
 
     public String getFirstName() {
         return firstName;

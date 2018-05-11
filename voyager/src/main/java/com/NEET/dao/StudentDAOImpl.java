@@ -25,12 +25,13 @@ public class StudentDAOImpl implements StudentDAO {
         System.out.println("student");
         return (Student) sessionFactory.getCurrentSession().get(User.class,studentId);
     }
-    public List<User> getAllFranchises() {
+
+    @Override
+    public List<User> getAllStudents() {
         System.out.println("student");
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(User.class,"user");
-        /*criteria.createCriteria("addressList").add(Restrictions.sqlRestriction("zipcode LIKE '%"+searchKey+"%' "));*/
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        criteria.add(Restrictions.eq("user.class",Franchise.class));
+        criteria.add(Restrictions.eq("user.class",Student.class));
         return (List<User>) criteria.list();
     }
 }

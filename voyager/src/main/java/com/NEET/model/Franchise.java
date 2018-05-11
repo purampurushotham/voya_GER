@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @DiscriminatorValue("Franchise")
 @Table(name="FRANCHISE_TBL")
+
 public class Franchise extends User {
 
     @Column(name="FRANCHISE_REGNO")
